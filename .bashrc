@@ -19,7 +19,34 @@ bind '"\t":menu-complete'
 alias intranet='cd /afs/iastate.edu/virtual/intraregistrar/WWW/'
 alias registrar='cd /afs/iastate.edu/virtual/wwwregistrar/WWW/'
 
+# Some Git aliases
+# Thank you, Peteris: http://www.catonmat.net/blog/git-aliases/
+alias ga='git add'
+alias gp='git push'
+alias gl='git log'
+alias gs='git status'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gm='git commit -m'
+alias gma='git commit -am'
+alias gb='git branch'
+alias gc='git checkout'
+alias gra='git remote add'
+alias grr='git remote rm'
+alias gpu='git pull'
+alias gcl='git clone'
+
 # Functions
+
+# Registrar Intranet Deployment
+function deploy-intranet() {
+	read -p "Are you sure you wish to deploy the Intranet?" yn
+	case $yn in
+		[Yy]* ) (git checkout master && git merge development && git push origin master && cd /afs/iastate.edu/virtual/intraregistrar/WWW/master/ && git pull && chmod u+x pre-deploy.sh && ./pre-deploy.sh);;
+		[Nn]* ) echo 'Aborted mission.';;
+		* ) echo 'Sorry, my responses are limited.';;
+	esac
+}
 
 # To enable the web user read/write access a directory, this command has to
 # be ran. Expect I always seem to forget it so this function helps.
